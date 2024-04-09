@@ -1,10 +1,10 @@
 USE Bank_Sch;
-
+drop table acc_info;
 CREATE TABLE `Bank_Sch`.`acc_info` (
   `acc_no` INT NOT NULL,
   `user_name` VARCHAR(45) NOT NULL,
   `address` VARCHAR(100) NOT NULL,
-  `aadhar_no` INT(16) NOT NULL,
+  `aadhar_no` BIGINT(16) NOT NULL,
   `mobile_no` INT(10) NOT NULL,
   `acc_pwd` VARCHAR(45) NOT NULL,
   `acc_balance` DECIMAL(9.2) NOT NULL,
@@ -18,6 +18,7 @@ CREATE TABLE `Bank_Sch`.`acc_info` (
 
 DESC acc_info;
 
+drop table Benf;
 
 CREATE TABLE `Bank_Sch`.`Benf` (
   `user_name` VARCHAR(45) NOT NULL,
@@ -33,10 +34,11 @@ CREATE TABLE `Bank_Sch`.`Benf` (
 
 -- DESC Benf;
 
+drop table card;
 
 CREATE TABLE `Bank_Sch`.`card` (
   `user_name` VARCHAR(45) NOT NULL,
-  `card_no` INT(16) NOT NULL,
+  `card_no` BIGINT(16) NOT NULL,
   `card_type` VARCHAR(45) NOT NULL,
   `pin` INT(4) NOT NULL,
   `cvv` INT(3) NOT NULL,
