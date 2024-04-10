@@ -1,7 +1,7 @@
 USE Bank_Sch;
 drop table acc_info;
 CREATE TABLE `Bank_Sch`.`acc_info` (
-  `acc_no` INT NOT NULL,
+  `acc_no` INT(16) NOT NULL,
   `user_name` VARCHAR(45) NOT NULL,
   `address` VARCHAR(100) NOT NULL,
   `aadhar_no` BIGINT(16) NOT NULL,
@@ -13,6 +13,14 @@ CREATE TABLE `Bank_Sch`.`acc_info` (
   UNIQUE INDEX `aadhar_no_UNIQUE` (`aadhar_no` ASC) VISIBLE,
   UNIQUE INDEX `mobile_no_UNIQUE` (`mobile_no` ASC) VISIBLE,
   UNIQUE INDEX `acc_pwd_UNIQUE` (`acc_pwd` ASC) VISIBLE);
+
+ALTER TABLE `Bank_Sch`.`acc_info`
+MODIFY COLUMN `acc_no` BIGINT(16) NOT NULL,
+MODIFY COLUMN `acc_balance` DECIMAL(9,2) NOT NULL;
+
+ALTER TABLE `Bank_Sch`.`acc_info`
+MODIFY COLUMN `mobile_no` BIGINT(10) NOT NULL;
+
 
 -- DROP table acc_info;
 
