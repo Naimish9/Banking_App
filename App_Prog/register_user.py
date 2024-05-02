@@ -1,4 +1,4 @@
-
+import getpass
 from generate import generate_account_number
 from main import details_into_db
 from options import show_options, fetch_data
@@ -92,18 +92,19 @@ def register_user():
 
 
 # User login:
-def login_user():
+def login_user(cursor, connect):
     user_name = input("Enter username: ")
-    password = input("Enter password: ")
+    password = getpass.getpass("Enter Your Password : ")  # Using getpass to hide password
 
     sql_query = "SELECT * FROM acc_info WHERE user_name = %s AND acc_pwd = %s"
     values = (user_name, password)
-
-    user = fetch_data(sql_query, values)
+    cursor.execute(sql_query, values)
+    user = cursor.fetchone()
 
     if user:
         print("Welcome,", user[1])
+        print(type(user))
         # Assuming there's a function called show_options to display options
-        show_options(user)
+        show_options( cursor, connect, user)
     else:
         print("Invalid username or password.")
