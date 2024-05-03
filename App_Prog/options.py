@@ -163,7 +163,8 @@ def list_cards(cursor, connect, user):
 
     if cards:
         for card in cards:
-            print(f"Card Number: {card[1]}, Card Type: {card[2]}, CVV: {card[4]}, PIN: {card[3]}")
+            masked_card_number = str(card[1])[:4] + "*" * (len(str(card[1])) - 8) + str(card[1])[-4:]
+            print(f"Card Number: {masked_card_number}, Card Type: {card[2]}")
     else:
         print("No cards found.")
 
