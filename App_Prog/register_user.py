@@ -100,7 +100,7 @@ def login_user(cursor, connect):
 
     if user:
         print("Welcome,", user[1])
-        print(type(user))
+        # print(type(user))
         # Assuming there's a function called show_options to display options
         show_options( cursor, connect, user)
     else:

@@ -72,12 +72,11 @@ def initiate_deposit(cursor, connect, user):
         print("Deposit a valid amount(>0)")
         return
 
-    balance_add(deposit_amount, user[0][0], cursor, connect, user)
+    balance_add(cursor, connect, user, deposit_amount, user[0])
 
 
 #3. Add Beneficiaries
 def add_beneficiary(cursor, connect, user):
-    # global connection, cursor
     print("Add Beneficiary Details:")
     while True:
         #username = user[1]
@@ -106,7 +105,7 @@ def add_beneficiary(cursor, connect, user):
 
         # Insert the beneficiary into the beneficiaries table
         sql = "INSERT INTO Benf (user_name, benf_name, benf_acc_no, Benf_ifsc) VALUES (%s, %s, %s, %s)"
-        val = (user[0][1], benef_name, benef_account_number, benef_ifsc)
+        val = (user[1], benef_name, benef_account_number, benef_ifsc)
         cursor.execute(sql, val)
         connect.commit()
         print("Beneficiary added successfully!")
@@ -146,7 +145,7 @@ def add_card(cursor, connect, user):
         cvv = ''.join(random.choices('0123456789', k=3))
 
         sql = "INSERT INTO card (card_no, card_type, cvv, pin, user_name) VALUES (%s, %s, %s, %s, %s)"
-        val = (card_numb, card_type, cvv, pin, user[0][1])
+        val = (card_numb, card_type, cvv, pin, user[1])
         cursor.execute(sql, val)
         connect.commit()
         print(f"{card_type.upper()} added successfully!")
@@ -191,8 +190,9 @@ def transfer_funds(cursor, connect, user):
         # Check if the user has sufficient balance
     query = "SELECT acc_balance FROM acc_info WHERE user_name = %s"
     cursor.execute(query, (user[1],))
-    sender_balance = cursor.fetchone()[0][0]
-    if sender_balance < amount:
+    sender_balance = cursor.fetchone()
+
+    if sender_balance[0] < amount:
         print("Insufficient balance. Transaction aborted.")
         return
 
@@ -200,20 +200,21 @@ def transfer_funds(cursor, connect, user):
     cursor.fetchall()
 
     # Deduct the transferred amount from the sender's account balance
-    new_sender_balance = sender_balance - amount
+    new_sender_balance = sender_balance[0] - amount
     update_sender_query = "UPDATE acc_info SET acc_balance = %s WHERE user_name = %s"
     cursor.execute(update_sender_query, (new_sender_balance, user[1]))
     connect.commit()  # Consume the result
 
     # Add the transferred amount to the beneficiary's account balance
     update_beneficiary_query = "UPDATE acc_info SET acc_balance = acc_balance + %s WHERE user_name = %s"
-    cursor.execute(update_beneficiary_query, (amount, beneficiary[0]))
+    cursor.execute(update_beneficiary_query, (amount, beneficiary[1]))
+    connect.commit()  # Consume the result
 
     # Insert transaction record
     insert_transaction_query = "INSERT INTO transaction (sender_acc_no, benf_acc_no, amount) VALUES (%s, %s, %s)"
     cursor.execute(insert_transaction_query, (user[0], beneficiary[2], amount))
-
     connect.commit()
+
     print("Funds transferred successfully.")
 
     show_options(cursor, connect, user)
@@ -303,7 +304,7 @@ def change_pin(cursor, connect, user):
     query = "UPDATE card SET pin = %s WHERE card_no = %s"
     data = (new_pin, card_number)
     cursor.execute(query, data)
-    connection.commit()
+    connect.commit()
     print("PIN changed successfully.")
 
     show_options(cursor, connect, user)
@@ -333,7 +334,7 @@ def update_info(cursor, connect, user):
 #DB Connection:
 #Connection to load data:
 def sql_connect():
-    # global connection, cursor
+
     try:
         connection = mysql.connector.connect(host="localhost", user="root", password="Nine@123", database="Bank_Sch")
         return connection
@@ -356,7 +357,7 @@ def fetch_data(cursor, sql_query, values=None):
 
 
 #Connection to add balance:
-def balance_add(cursor, connect, deposit_amount, acc_no, user):
+def balance_add(cursor, connect, user, deposit_amount, acc_no):
     # Update the user's balance in the database
     cursor.execute("UPDATE acc_info SET acc_balance = acc_balance + %s WHERE acc_no = %s", (deposit_amount, acc_no))
     connect.commit()
