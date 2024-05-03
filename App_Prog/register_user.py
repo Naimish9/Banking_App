@@ -93,7 +93,7 @@ def register_user(cursor, connect):
     # fro notebook (not working, skipping to the input section)
     # clear_output(wait=True)
 
-    print("Registration successful!")
+    # print("Registration successful!")
     acc_no = generate_account_number()
     print("Your Account Number: ", acc_no)
     print("Your User Name: ", user_name)

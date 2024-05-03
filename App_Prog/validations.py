@@ -13,7 +13,7 @@ def validate_address(address):
 
 def validate_aadhar(aadhar):
     aadhar = ''.join(filter(str.isdigit, aadhar))
-    if len(aadhar) == 12:
+    if len(aadhar) == 12 and aadhar[0] != '0':
         aadhar_with_gaps = ' '.join(aadhar[i:i + 4] for i in range(0, len(aadhar), 4))
         return aadhar_with_gaps
     else:

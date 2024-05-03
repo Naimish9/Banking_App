@@ -43,5 +43,9 @@ def details_into_db(cursor, connect, acc_no, user_name, address, aadhar, mobile_
         values = (acc_no, user_name, address, int(aadhar), int(mobile_no), acc_pwd, 0.0)
         cursor.execute(sql_query, values)
         connect.commit()
+        print("Registration successful!")
+
     except Exception as e:
-        print("An error occurred:", e)
+        print("An error occurred, Re-enter your details", e)
+        register_user(cursor, connect)
+
