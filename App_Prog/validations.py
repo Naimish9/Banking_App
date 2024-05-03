@@ -1,6 +1,5 @@
 import re
 
-
 #Registed User validation:
 
 # Input validation functions

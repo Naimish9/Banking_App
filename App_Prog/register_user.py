@@ -1,12 +1,12 @@
 import getpass
 from generate import generate_account_number
 from main import details_into_db
-from options import show_options, fetch_data
+from options import show_options
 from validations import *
+
 
 # User Inputs:
 def register_user(cursor, connect):
-
     max_attempts = 3  # Maximum number of attempts allowed
     attempts = {'username': 0, 'address': 0, 'aadhar': 0, 'mobile': 0, 'password': 0}
 
@@ -15,7 +15,14 @@ def register_user(cursor, connect):
         user_name = input("Enter username (alphabets only): ")
         attempts['username'] += 1
         if validate_username(user_name):
-            break
+            # Check if the username already exists in the database
+            sql_query = "SELECT * FROM acc_info WHERE user_name = %s"
+            cursor.execute(sql_query, (user_name,))
+            existing_user = cursor.fetchone()
+            if existing_user:
+                print("Username already exists. Please choose a different username.")
+            else:
+                break
         elif attempts['username'] >= max_attempts:
             print("Maximum attempts exceeded. Returning to main menu.")
             return
@@ -36,6 +43,15 @@ def register_user(cursor, connect):
     while True:
         aadhar = input("Enter Aadhar number (12 digits with automatic gaps insertion after every 4 digits): ")
         attempts['aadhar'] += 1
+        if validate_aadhar(aadhar):
+            # Check if the aadhar already exists in the database
+            sql_query = "SELECT * FROM acc_info WHERE aadhar_no = %s"
+            cursor.execute(sql_query, (aadhar,))
+            existing_user = cursor.fetchone()
+            if existing_user:
+                print("Aadhar number already exists. Please enter correct Aadhar number.")
+            else:
+                break
         aadhar_with_gaps = validate_aadhar(aadhar)
         if aadhar_with_gaps:
             print("Aadhar number with automatic gaps insertion:")
@@ -102,6 +118,6 @@ def login_user(cursor, connect):
         print("Welcome,", user[1])
         # print(type(user))
         # Assuming there's a function called show_options to display options
-        show_options( cursor, connect, user)
+        show_options(cursor, connect, user)
     else:
         print("Invalid username or password.")

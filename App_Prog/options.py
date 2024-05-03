@@ -64,13 +64,15 @@ def show_account_info(cursor, connect, user):
         else:
             show_options(cursor, connect, user)
 
+    show_options(cursor, connect, user)
 
 # 2. Add funds
 def initiate_deposit(cursor, connect, user):
     deposit_amount = int(input("Enter deposit amount: "))
     if deposit_amount < 1:
         print("Deposit a valid amount(>0)")
-        return
+        # show_options(cursor, connect, user)
+        initiate_deposit(cursor, connect, user)
 
     balance_add(cursor, connect, user, deposit_amount, user[0])
 
@@ -335,7 +337,6 @@ def update_info(cursor, connect, user):
 #DB Connection:
 #Connection to load data:
 def sql_connect():
-
     try:
         connection = mysql.connector.connect(host="localhost", user="root", password="Nine@123", database="Bank_Sch")
         return connection

@@ -1,7 +1,4 @@
-import mysql.connector
-import re
 import random
-import decimal
 
 #Account number generation:
 def generate_account_number():

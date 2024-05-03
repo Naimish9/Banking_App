@@ -1,16 +1,6 @@
 from options import sql_connect
 from register_user import *
 
-'''
-#to clear screen
-#import os
-#to cell in notebook
-#from IPython.display import clear_output
-#import datetime
-#import getpass
-#import pandas as pd
-'''
-
 
 def main():
     connect = sql_connect()
