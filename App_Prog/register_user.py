@@ -5,7 +5,7 @@ from options import show_options, fetch_data
 from validations import *
 
 # User Inputs:
-def register_user():
+def register_user(cursor, connect):
 
     max_attempts = 3  # Maximum number of attempts allowed
     attempts = {'username': 0, 'address': 0, 'aadhar': 0, 'mobile': 0, 'password': 0}
@@ -70,7 +70,6 @@ def register_user():
             print("Invalid password. Password should be at least 8 characters long and contain alphanumeric "
                   "characters with special charcters.")
 
-    register_user()
     # Display User details after registration
     #clean the window before displaying the details:
     #for o/p screen
@@ -85,10 +84,8 @@ def register_user():
     print("Your Address: ", address)
     print("Your Aadhar Number: ", aadhar)
     print("Your Mobile Number: ", mobile_no)
-    print("Your Account Password: ", acc_pwd)
-    # print("Your Balance: ",user_name)
 
-    details_into_db(acc_no, user_name, address, aadhar, mobile_no, acc_pwd)
+    details_into_db(cursor, connect, acc_no, user_name, address, aadhar, mobile_no, acc_pwd)
 
 
 # User login:

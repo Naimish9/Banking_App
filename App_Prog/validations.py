@@ -26,4 +26,4 @@ def validate_mobile(mobile):
 
 
 def validate_password(acc_pwd):
-    return bool(re.match(r'^[a-zA-Z0-9!@#$%^&*()-_+=]{8,}$', acc_pwd))
+    return bool(re.match(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', acc_pwd))

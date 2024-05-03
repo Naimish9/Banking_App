@@ -54,8 +54,6 @@ def show_account_info(cursor, connect, user):
     print("Account Number:", users[0])
     print("Balance:", users[-1])
 
-    show_options(cursor, connect, user)
-
     if user[-1] == 0:
         print("It looks like your account balance is 0. Would you like to make an initial deposit? (yes/no)")
         decision = input().lower()
