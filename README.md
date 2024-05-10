@@ -1,4 +1,4 @@
-# --------------Welcome to Banking Application---------------------
+# --------------Welcome to Banking Application-----------------
 
 # Problem Statement:
 I have created a banking-based program to replicate the operations that a real-time bank performs.
