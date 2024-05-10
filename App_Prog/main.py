@@ -32,9 +32,6 @@ if __name__ == "__main__":
 
 
 # Store user data in MySQL
-# store_in_mysql(user, password)
-# details_into_db(user_name, address, aadhar, mobile_no, password, account_number)
-
 def details_into_db(cursor, connect, acc_no, user_name, address, aadhar, mobile_no, acc_pwd):
     try:
         sql_query = ("INSERT INTO acc_info (acc_no, user_name, address, aadhar_no, mobile_no, acc_pwd, acc_balance) "
@@ -48,4 +45,3 @@ def details_into_db(cursor, connect, acc_no, user_name, address, aadhar, mobile_
     except Exception as e:
         print("An error occurred, Re-enter your details", e)
         register_user(cursor, connect)
-

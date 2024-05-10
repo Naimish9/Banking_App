@@ -55,6 +55,7 @@ def show_account_info(cursor, connect, user):
     print("Balance:", users[-1])
 
     if user[-1] == 0:
+        print(user)
         print("It looks like your account balance is 0. Would you like to make an initial deposit? (yes/no)")
         decision = input().lower()
         if decision == 'yes':
@@ -230,7 +231,8 @@ def transfer_funds(cursor, connect, user):
 # 8. View Transaction
 def view_transactions(cursor, connect, user):
     query = """
-    SELECT t.idtransaction, u.user_name AS sender_name, b.benf_name,
+    SELECT distinct t.idtransaction, u.user_name AS sender_name, b.benf_name,
+    SELECT distinct t.idtransaction, u.user_name AS sender_name, b.benf_name,
           t.amount, t.tr_timestamp
     FROM transaction t
     INNER JOIN acc_info u ON t.sender_acc_no = u.acc_no
